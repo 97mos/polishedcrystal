@@ -1,7 +1,16 @@
-	db  60,  95,  69,  80,  65,  79 ; 448 BST
-	;   hp  atk  def  spe  sat  sdf
+if DEF(FAITHFUL)
+    db  60,  95,  69,  80,  65,  79 ; 448 BST
+	;   hp   atk  def  spe  sat  sdf
+else
+    db  70,  100,  70,  85,  65,  80 ; 470 BST
+    ;   hp   atk   def  spe  sat  sdf
+endc
 
+if DEF(FAITHFUL)
 	db POISON, POISON ; type
+else
+    db POISON, DARK ; type
+endc		
 	db 90 ; catch rate
 	db 147 ; base exp
 	db NO_ITEM, POISON_BARB ; held items
