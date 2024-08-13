@@ -5135,6 +5135,9 @@ MoveSelectionScreen:
 	call StdBattleTextbox
 .start_over
 	call SafeLoadTempTileMapToTileMap
+	ld c, 2
+	call DelayFrames
+	call LoadWeatherIconSprite
 	jmp MoveSelectionScreen
 
 .pressed_up
@@ -5173,6 +5176,7 @@ MoveSelectionScreen:
 	jmp MoveSelectionScreen
 
 .struggle
+	call ClearSprites
 	ld a, STRUGGLE
 	ld [wCurPlayerMove], a
 	ld hl, BattleText_PkmnHasNoMovesLeft
@@ -5201,7 +5205,7 @@ MoveSelectionScreen:
 	pop hl
 	call BattleMoveDescTextbox
 	call WaitPressAorB_BlinkCursor
-	jr .start_over
+	jmp .start_over
 
 SetChoiceLock:
 ; Set choice lock to move choice c (0-3)
@@ -6423,13 +6427,13 @@ GiveExperiencePoints:
 	ld a, [wEnemyMonBaseExp]
 	ldh [hMultiplicand + 2], a
 	ld a, [wInitialOptions]
-	bit SCALED_EXP, a
+	bit SCALED_EXP_OPT, a
 	call nz, GetNewBaseExp
 	ld a, [wEnemyMonLevel]
 	ldh [hMultiplier], a
 	call Multiply
 	ld a, [wInitialOptions]
-	bit SCALED_EXP, a
+	bit SCALED_EXP_OPT, a
 	ld a, 7
 	jr z, .got_exp_divisor
 	ld a, 5
@@ -6791,7 +6795,7 @@ GiveExperiencePoints:
 
 .done_sharing_exp
 	ld a, [wInitialOptions]
-	bit SCALED_EXP, a
+	bit SCALED_EXP_OPT, a
 	jr z, .done_scaling
 
 	; Level multiplier

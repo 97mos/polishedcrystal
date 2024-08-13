@@ -34,7 +34,7 @@ ShakeHeadbuttTree:
 	add (NUM_SPRITE_OAM_STRUCTS - 4) * SPRITEOAMSTRUCT_LENGTH + 1
 
 	ld [wCurSpriteOAMAddr], a
-	call DoNextFrameForAllSprites
+	call DoNextFrameForAllSprites_OW
 	call HideHeadbuttTree
 	ld a, 32
 	ld [wFrameCounter], a
@@ -54,7 +54,7 @@ ShakeHeadbuttTree:
 	add (NUM_SPRITE_OAM_STRUCTS - 4) * SPRITEOAMSTRUCT_LENGTH + 1
 
 	ld [wCurSpriteOAMAddr], a
-	call DoNextFrameForAllSprites
+	call DoNextFrameForAllSprites_OW
 	farcall DoOverworldWeather
 	call DelayFrame
 	jr .loop
@@ -124,7 +124,7 @@ OWCutAnimation:
 .loop
 	ld a, [wJumptableIndex]
 	bit 7, a
-	ret nz
+	jr nz, .finish
 
 	ldh a, [hUsedOAMIndex]
 	; a = (NUM_SPRITE_OAM_STRUCTS - 4) * SPRITEOAMSTRUCT_LENGTH - a
@@ -132,11 +132,29 @@ OWCutAnimation:
 	add (NUM_SPRITE_OAM_STRUCTS - 4) * SPRITEOAMSTRUCT_LENGTH + 1
 
 	ld [wCurSpriteOAMAddr], a
-	call DoNextFrameForAllSprites
+	call DoNextFrameForAllSprites_OW
 	farcall DoOverworldWeather
 	call OWCutJumptable
 	call DelayFrame
 	jr .loop
+
+.finish
+	; hide tree/leaf sprites
+	ldh a, [hUsedOAMIndex]
+	; a = (NUM_SPRITE_OAM_STRUCTS - 4) * SPRITEOAMSTRUCT_LENGTH - a
+	cpl
+	add (NUM_SPRITE_OAM_STRUCTS - 4) * SPRITEOAMSTRUCT_LENGTH + 1
+	ld h, HIGH(wShadowOAM)
+	ld l, a
+	ld b, 4
+	ld de, SPRITEOAMSTRUCT_LENGTH
+	ld a, OAM_YCOORD_HIDDEN
+.clear_loop
+	ld [hl], a
+	add hl, de
+	dec b
+	jr nz, .clear_loop
+	ret
 
 OWCutJumptable:
 	call StandardStackJumpTable
@@ -324,7 +342,7 @@ FlyFromAnim:
 	add (NUM_SPRITE_OAM_STRUCTS - NUM_FLYFROM_ANIM_OAMS) * SPRITEOAMSTRUCT_LENGTH + 1
 .got_oam_addr
 	ld [wCurSpriteOAMAddr], a
-	call DoNextFrameForAllSprites
+	call DoNextFrameForAllSprites_OW
 	farcall DoOverworldWeather
 	call FlyFunction_FrameTimer
 	call DelayFrame
@@ -376,7 +394,7 @@ FlyToAnim:
 .got_oam_addr
 
 	ld [wCurSpriteOAMAddr], a
-	call DoNextFrameForAllSprites
+	call DoNextFrameForAllSprites_OW
 	farcall DoOverworldWeather
 	call FlyFunction_FrameTimer
 	call DelayFrame

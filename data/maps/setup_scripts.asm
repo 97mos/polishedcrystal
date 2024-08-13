@@ -43,6 +43,7 @@ MapSetupScript_Warp:
 	mapsetup DecompressMetatiles
 	mapsetup LoadMapTimeOfDay
 	mapsetup LoadMapObjects
+	mapsetup GrottoUpdatePlayerTallGrassFlags
 	mapsetup EnableLCD
 	mapsetup LoadMapPalettes
 	mapsetup SpawnInFacingDown
@@ -87,7 +88,7 @@ MapSetupScript_BadWarp:
 MapSetupScript_Connection:
 	mapsetup SuspendMapAnims
 	mapsetup EnterMapConnection
-	mapsetup LoadMapAttributes
+	mapsetup LoadMapAttributes_Connection
 	mapsetup HandleNewMap
 	mapsetup SetCurrentWeather
 	mapsetup RefreshPlayerCoords
@@ -97,7 +98,7 @@ MapSetupScript_Connection:
 	mapsetup DeferredLoadMapGraphics
 	mapsetup DecompressMetatiles
 	mapsetup DisableDynPalUpdates
-	mapsetup LoadMapObjects
+	mapsetup LoadMapObjects_Connection
 	mapsetup FadeToMapMusic
 	mapsetup LoadMapPalettes
 	mapsetup EnableDynPalUpdatesNoApply
@@ -130,6 +131,7 @@ MapSetupScript_Train:
 	mapsetup FadeOutMapMusic
 	mapsetup EnableLCD
 	mapsetup LoadMapObjects
+	mapsetup GrottoUpdatePlayerTallGrassFlags
 	mapsetup LoadMapPalettes
 	mapsetup EnableDynPalUpdatesNoApply
 	mapsetup RefreshMapSprites

@@ -96,8 +96,8 @@ DEF NUM_FONTS EQU const_value
 	const COLOR_VARY_OPT   ; 2
 	const PERFECT_IVS_OPT  ; 3
 	const TRADED_AS_OT_OPT ; 4
-	const NUZLOCKE_MODE    ; 5
-	const SCALED_EXP       ; 6
+	const AFFECTION_OPT    ; 5
+	const SCALED_EXP_OPT   ; 6
 	const PSS_OPT          ; 7
 
 DEF ABILITIES_OPTMASK EQU 1 << ABILITIES_OPT
@@ -502,4 +502,9 @@ DEF CAUGHT_BIRDS_MASK  EQU (1 << PLAYER_CAUGHT_ARTICUNO_F) | (1 << PLAYER_CAUGHT
 	const USE_DAYTIME_PAL_F              ; 2
 	const DISABLE_DYN_PAL_F              ; 3
 	const NO_DYN_PAL_APPLY_UNTIL_RESET_F ; 4
+	const MAP_CONNECTION_PAL_F           ; 5
 DEF NO_DYN_PAL_APPLY EQU (1 << NO_DYN_PAL_APPLY_ONCE_F) | (1 << NO_DYN_PAL_APPLY_UNTIL_RESET_F)
+
+; wMapSetupFlags
+	const_def
+	const MAPSETUP_CONNECTION_F ; 0
